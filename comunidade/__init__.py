@@ -3,12 +3,15 @@ from comunidade.forms import FormLogin, FormCriarConta
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
-
+import os
 
 app = Flask(__name__)
 
 app.config['SECRET_KEY'] = 'e8bed4f3a192a783ef493bd1b82dcc5a'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///comunidade.db'
+if os.getenv('DATABASE_URL'):
+    app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL')
+else:
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///comunidade.db'
 
 
 database = SQLAlchemy(app)
